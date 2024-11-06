@@ -1,0 +1,108 @@
+/* General Page Styling */
+body {
+    background-color: #e9ecef; /* Light gray background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    color: #333;
+}
+
+/* Container Styling */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background-color: #ffffff; /* White background for the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+/* Headings */
+h1 {
+    color: #007bff; /* Blue for main heading */
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+}
+
+h2 {
+    color: #343a40; /* Dark gray for subheadings */
+    font-size: 1.8rem;
+    margin-top: 20px;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 40px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #495057; /* Dark gray for form labels */
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Button Styling */
+button[type="submit"] {
+    background-color: #007bff; /* Blue button */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: block;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Two-column Image Layout */
+.row {
+    margin-top: 30px;
+}
+
+.col-md-6 {
+    padding: 15px;
+}
+
+/* Responsive Image Styling */
+#input-image, #output-image {
+    width: 100%;  /* Ensure images take up full width of their container */
+    height: auto; /* Maintain aspect ratio */
+    border: 2px solid #007bff; /* Blue border around images */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+#input-image:hover, #output-image:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    button[type="submit"] {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
