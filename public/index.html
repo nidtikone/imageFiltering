@@ -1,4 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Processing Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5">Image Filtering Tool</h1>
+      <form id="upload-form" enctype="multipart/form-data">
+        <div
+          id="error-message"
+          class="alert alert-danger"
+          style="display: none"
+        >
+          Window size should not exceed 11.
+        </div>
+        <div class="form-group">
+          <label for="image">Select Image</label>
+          <input
+            type="file"
+            class="form-control"
+            id="image"
+            name="image"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="window-size">Window Size</label>
+          <input
+            type="number"
+            class="form-control"
+            id="window-size"
+            name="window-size"
+            value="3"
+            min="1"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
 
+      <div class="row mt-5">
+        <div class="col-md-6 text-center">
+          <h2>Input Image</h2>
+          <img id="input-image" class="img-fluid" src="" alt="Input Image" />
+        </div>
+        <div class="col-md-6 text-center">
+          <h2>Processed Image</h2>
+          <img
+            id="output-image"
+            class="img-fluid"
+            src=""
+            alt="Processed Image"
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const uploadForm = document.getElementById("upload-form");
+      const inputImage = document.getElementById("input-image");
+      const outputImage = document.getElementById("output-image");
+      const errorMessage = document.getElementById("error-message");
+      const windowSizeInput = document.getElementById("window-size");
+
+      windowSizeInput.addEventListener("input", function () {
+        if (windowSizeInput.value > 11) {
+          errorMessage.style.display = "block";
+          setTimeout(() => {
+            errorMessage.style.display = "none";
+          }, 3000);
+        }
+      });
+      uploadForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        windowSizeInput.addEventListener("input", function () {
+          if (windowSizeInput.value > 11) {
+            errorMessage.style.display = "block";
+            setTimeout(() => {
+              errorMessage.style.display = "none";
+            }, 3000);
+          }
+        });
+        const formData = new FormData(uploadForm);
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.blob())
+          .then((imageBlob) => {
+            // Create a local URL for the processed image
+            const imageObjectURL = URL.createObjectURL(imageBlob);
+            outputImage.src = imageObjectURL;
+          });
+
+        const fileInput = document.getElementById("image");
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          inputImage.src = event.target.result; // Display the uploaded image
+        };
+        reader.readAsDataURL(file); // Read the file as a Data URL
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +236,13 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="mt-5"> Image Filtering Tool</h1>
+    <h1 class="mt-5">Image Filtering Tool</h1>
+
+    
+    <div id="error-message" class="alert alert-danger" style="display: none;">
+        Window size should not exceed 11.
+    </div>
+
     <form id="upload-form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="image">Select Image</label>
@@ -26,11 +258,13 @@
     <div class="row mt-5">
         <div class="col-md-6 text-center">
             <h2>Input Image</h2>
-            <img id="input-image" class="img-fluid" src="" alt="Input Image" />
+            <img id="input-image" class="img-fluid" src="placeholder.jpg" alt="Input Image" style="opacity: 0.5;" />
+            <p id="input-placeholder">No image selected</p>
         </div>
         <div class="col-md-6 text-center">
             <h2>Processed Image</h2>
-            <img id="output-image" class="img-fluid" src="" alt="Processed Image" />
+            <img id="output-image" class="img-fluid" src="placeholder.jpg" alt="Processed Image" style="opacity: 0.5;" />
+            <p id="output-placeholder">No processed image yet</p>
         </div>
     </div>
 </div>
@@ -39,10 +273,39 @@
     const uploadForm = document.getElementById('upload-form');
     const inputImage = document.getElementById('input-image');
     const outputImage = document.getElementById('output-image');
+    const errorMessage = document.getElementById('error-message');
+    const inputPlaceholder = document.getElementById('input-placeholder');
+    const outputPlaceholder = document.getElementById('output-placeholder');
+    const windowSizeInput = document.getElementById('window-size');
+
+    // Validate window size
+    windowSizeInput.addEventListener('input', function () {
+        if (windowSizeInput.value > 11) {
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
 
     uploadForm.addEventListener('submit', function (e) {
         e.preventDefault();
         
+        // Check if window size is valid
+        if (windowSizeInput.value > 11) {
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+            return;
+        }
+
+        // Hide placeholders when images are uploaded or processed
+        inputPlaceholder.style.display = 'none';
+        outputPlaceholder.style.display = 'none';
+        inputImage.style.opacity = '1';
+        outputImage.style.opacity = '1';
+
         const formData = new FormData(uploadForm);
         fetch('/upload', {
             method: 'POST',
@@ -50,7 +313,6 @@
         })
         .then(response => response.blob())
         .then(imageBlob => {
-            // Create a local URL for the processed image
             const imageObjectURL = URL.createObjectURL(imageBlob);
             outputImage.src = imageObjectURL;
         });
@@ -59,10 +321,10 @@
         const file = fileInput.files[0];
         const reader = new FileReader();
         reader.onload = function (event) {
-            inputImage.src = event.target.result; // Display the uploaded image
+            inputImage.src = event.target.result;
         }
-        reader.readAsDataURL(file); // Read the file as a Data URL
+        reader.readAsDataURL(file);
     });
 </script>
 </body>
-</html>
+</html> -->
