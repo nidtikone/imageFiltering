@@ -1,0 +1,1 @@
+This project demonstrates the use of parallel processing in CUDA to perform image filtering with a Bitonic Sort Median Filter. The Bitonic Sort algorithm is employed to sort pixel values within a sliding window to compute the median, providing an efficient way to filter images.
